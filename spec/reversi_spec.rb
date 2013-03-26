@@ -34,11 +34,13 @@ describe Board do
       board.pos[3][3] = black_piece
       board.valid_move?(occupied_move, :black).should be_false
     end
-    it "the move flips an opponent's piece" do
+    it "the move flips an opponent's piece" do 
+      # REV The description above should be 'doesn't flip'
       board.pos[2][3] = white_piece
       board.pos[1][3] = black_piece
       board.pos[2][1] = black_piece
       board.valid_move?(doesnt_flip_move, :black).should be_false
+
     end
   end
 

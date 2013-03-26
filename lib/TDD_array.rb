@@ -10,6 +10,7 @@ end
 
 def two_sum(array)
   two_sum = []
+  # REV using array.count would have simplified this
   array.each_with_index do |el1, ind1|
     array[ind1+1..-1].each_with_index do |el2, ind2|
       ind2 += ind1+1

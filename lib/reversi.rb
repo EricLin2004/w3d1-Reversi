@@ -1,8 +1,11 @@
 require 'debugger'
+# REV All classes in same file? Ned would be sad :p
 class Board
   attr_accessor :pos
 
   def initialize
+    # REV nil might be a better choice here
+    # REV why pos? Isn't this a board?
     @pos = Array.new(8) {Array.new(8) {:empty}}
 
   end
@@ -26,7 +29,7 @@ class Board
   end
 
   def no_flip?(move, player_color)
-    surrounding_spaces = [-1,0,1].product([-1,0,1])
+    surrounding_spaces = [-1,0,1].product([-1,0,1]) # REV I like product!
     surrounding_spaces.delete_if {|x| x == [0,0]}
 
     surrounding_spaces.each do |vec|

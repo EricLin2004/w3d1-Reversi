@@ -22,6 +22,8 @@ describe '#two_sum' do
   it "Works for double zeros" do
     two_sum(arr2).should eq([[0,1],[3,4],[5,6]])
   end
+
+
 end
 
 describe Hanoi do
@@ -45,10 +47,13 @@ describe Hanoi do
         game.move(0,1)
       end.to raise_error("Can't move onto smaller disc.")
     end
+
+    # REV what about move from empty disc?
   end
 
   describe '#won?' do
     it 'winning condition 1' do
+      # REV why not just pass in these towers through Initialize?
       game.instance_variable_set(:@towers, [[],[3,2,1],[]])
       game.won?.should be_true
     end
