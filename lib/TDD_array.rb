@@ -26,12 +26,23 @@ class Hanoi
 
   def initialize(size = 3)
     @towers = [[],[],[]]
+    @size = size
     size.times do |i|
       @towers[0] << size - i
     end
   end
 
   def move(start_tower, end_tower)
-    @towers[end_tower] << @towers[start_tower].pop
+    if @towers[end_tower].empty?
+      @towers[end_tower] << @towers[start_tower].pop
+    elsif (@towers[start_tower].last > @towers[end_tower].last)
+      raise "Can't move onto smaller disc."
+    else
+      @towers[end_tower] << @towers[start_tower].pop
+    end
+  end
+
+  def won?
+    (@towers[1].count == @size) || (@towers[2].count == @size)
   end
 end

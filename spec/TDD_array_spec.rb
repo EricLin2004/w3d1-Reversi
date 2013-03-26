@@ -40,6 +40,22 @@ describe Hanoi do
     end
 
     it 'cannot move onto a smaller disc' do
+      game.move(0,1)
+      expect do
+        game.move(0,1)
+      end.to raise_error("Can't move onto smaller disc.")
+    end
+  end
+
+  describe '#won?' do
+    it 'winning condition 1' do
+      game.instance_variable_set(:@towers, [[],[3,2,1],[]])
+      game.won?.should be_true
+    end
+
+    it 'winning condition 2' do
+      game.instance_variable_set(:@towers, [[],[],[3,2,1]])
+      game.won?.should be_true
     end
   end
 end
