@@ -1,10 +1,6 @@
 require 'rspec'
 require 'reversi.rb'
 
-describe Piece do
-  subject(:piece) {Piece.new}
-end
-
 describe Board do
   subject(:board) {Board.new}
 
@@ -80,19 +76,75 @@ describe Board do
     end
   end
 
-  describe '#win?' do
+  describe '#game_over?' do
+    it 'returns true if board is full' do
+      board.pos.each_with_index do |el1, row|
+        el1.each_with_index do |el2, col|
+          board.pos[row][col] = :black
+        end
+      end
+      board.game_over?(:black).should be_true
+    end
 
+    it 'returns true if no moves available' do
+      board.pos.each_with_index do |el1, row|
+        el1.each_with_index do |el2, col|
+          board.pos[row][col] = :white
+        end
+      end
+
+      board.pos[3][7] = :empty
+      board.pos[4][6] = :empty
+      board.pos[4][7] = :empty
+      board.pos[5][6] = :empty
+      board.pos[6][7] = :empty
+      board.pos[5][7] = :black
+
+      board.game_over?(:white).should be_true
+    end
+
+  end
+
+  describe '#count_pieces' do
+    it 'returns a hash of piece counts for each color' do
+      board.pos[1][0] = :black
+      board.pos[2][0] = :black
+      board.pos[3][0] = :white
+      board.count_pieces.should == {:black => 2, :white => 1}
+    end
   end
 end
 
 describe Game do
+  subject(:game){Game.new}
+  let(:input) {[3,2]}
+  let(:player) {double('player', :get_move)}
 
-  describe '#make_board' do
+  describe '#play_turn' do
+    it "adds one piece per turn until game_over?" do
+      game.gameboard.starting_board
+      expect do
+        game.play_turn(input)
+      end.to change{game.gameboard.count_pieces.values.inject(&:+)}.by(1)
+    end
   end
+
 end
 
-# let(:piece) {double(:piece, :swap_color => true)}
-# it "" do
-#   piece.stub(:swap_color)
+describe AIPlayer do
+  subject(:tom){AIPlayer.new(:black)}
+  let(:board) {Board.new}
 
-
+  describe '#get_move' do
+    it 'takes move that flips the most pieces' do
+      board.pos[1][3] = :white
+      board.pos[2][3] = :black
+      board.pos[2][4] = :white
+      board.pos[2][5] = :white
+      board.pos[2][6] = :white
+      board.pos[3][2] = :white
+      board.pos[4][1] = :white
+      tom.get_move(board).should == [2,7]
+    end
+  end
+end
