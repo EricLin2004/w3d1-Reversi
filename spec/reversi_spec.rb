@@ -11,7 +11,7 @@ end
 
 describe Board do
   subject(:board) {Board.new}
-  let(:black_piece) {double(:piece, :color => :black)}
+  let(:black_piece) {double(:piece, :color => :black)} #REV is it worth creating a double for pieces? They are quite simple objects so may not be worth it 
   let(:white_piece) {double(:piece, :color => :white)}
 
   # it "Should have four pieces in the middle" do
@@ -22,12 +22,12 @@ describe Board do
   #   board.pos[4][3].should == black_piece
   # end
 
-  describe '#valid_move?' do
+  describe '#valid_move?' do #REV this section reads very well.
     let(:off_board_move) {[8,8]}
     let(:occupied_move) {[3,3]}
     let(:doesnt_flip_move) {[2,4]}
 
-    it "the move is on the board" do
+    it "the move is on the board" do 
       board.valid_move?(off_board_move, :black).should be_false
     end
     it "the move location is empty" do

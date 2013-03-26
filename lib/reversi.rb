@@ -26,7 +26,7 @@ class Board
   end
 
   def no_flip?(move, player_color)
-    surrounding_spaces = [-1,0,1].product([-1,0,1])
+    surrounding_spaces = [-1,0,1].product([-1,0,1]) #REV nice use of product 
     surrounding_spaces.delete_if {|x| x == [0,0]}
 
     surrounding_spaces.each do |vec|

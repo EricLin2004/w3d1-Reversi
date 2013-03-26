@@ -36,7 +36,7 @@ def bfs(target, root)
   nil
 end
 
-def dfs(target, root)
+def dfs(target, root) #REV this seems like BFS. Probably best to solve dfs recursively
   queue = [root]
   until queue.empty?
     current = queue.shift
