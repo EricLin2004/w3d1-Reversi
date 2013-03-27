@@ -4,14 +4,6 @@ require 'reversi.rb'
 describe Board do
   subject(:board) {Board.new}
 
-  # it "Should have four pieces in the middle" do
-  #   board.pos[3][3].should == :black
-  #   board.pos[3][3].should == :white
-  #   board.pos[4][4].should == :white
-  #   board.pos[3][4].should == :black
-  #   board.pos[4][3].should == :black
-  # end
-
   describe '#valid_move?' do
     let(:off_board_move) {[8,8]}
     let(:occupied_move) {[3,3]}
@@ -41,9 +33,6 @@ describe Board do
     end
   end
 
-#  describe '#flip_piece' do
-#
-#  end
 
   describe '#make_move' do
     before(:each) do
@@ -116,15 +105,39 @@ describe Board do
 end
 
 describe Game do
-  subject(:game){Game.new}
-  let(:input) {[3,2]}
-  let(:player) {double('player', :get_move)}
+  let(:board) {double('board')}
+  let(:player1) {double('player1')}
+  let(:player2) {double('player2')}
+  let(:game){Game.new}
+=begin #REV: didn't finish this
+  describe '#run' do
+    before do
+      player1.stub(:color) {:black}
+      player1.stub(:get_move) {[3,2]}
+      player2.stub(:color) {:white}
+      player2.stub(:get_move) {[4,2]}
+      board.stub(:game_over?) {true}
+      board.stub(:count_pieces) {{:black => 3, :white => 3}}
+      board.stub(:who_won) {:black}
+      board.stub(:valid_move?) {false}
+      game.stub(:play_turn)
+      game.player1 = player1
+      game.player2 = player2
+      game.gameboard = board
+    end
 
+    it 'player should receive get_move call' do
+      player1.should_receive(:get_move)
+      game.run
+    end
+  end
+=end
   describe '#play_turn' do
     it "adds one piece per turn until game_over?" do
+      player1.stub(:get_move) {[5,4]}
       game.gameboard.starting_board
       expect do
-        game.play_turn(input)
+        game.play_turn(player1.get_move)
       end.to change{game.gameboard.count_pieces.values.inject(&:+)}.by(1)
     end
   end

@@ -38,18 +38,16 @@ class Board
   end
 
   def pieces_to_flip(move, player_color)
-    surrounding_spaces = [-1,0,1].product([-1,0,1])
-    surrounding_spaces.delete_if {|x| x == [0,0]}
+    surrounding_spaces = [-1,0,1].product([-1,0,1]) - [[0, 0]]
     pieces_to_flip = []
 
     surrounding_spaces.each do |vec|
-      i = 1
       #debugger if move == [7,3]
-      y = vec[0]*i + move[0]
-      x = vec[1]*i + move[1]
+      y = vec[0] + move[0]
+      x = vec[1] + move[1]
       next if off_board?([y,x])
       space = @pos[y][x]
-      next if space == :empty || space.nil?
+      next if space == :empty
       next if space == player_color
       direction_spaces = []
       until space == :empty || off_board?([y,x])
@@ -59,9 +57,8 @@ class Board
           break
         end
         direction_spaces << [y,x]
-        i += 1
-        y = vec[0]*i + move[0]
-        x = vec[1]*i + move[1]
+        y += vec[0]
+        x += vec[1]
       end
     end
     pieces_to_flip
@@ -71,7 +68,7 @@ class Board
     if valid_move?(move, player_color)
       @pos[move[0]][move[1]] = player_color
       pieces_to_flip(move, player_color).each do |y, x|
-        @pos[y][x] = player_color == :black ? :black : :white
+        @pos[y][x] = player_color
       end
     else
       raise "Invalid move."
@@ -125,18 +122,18 @@ end
 
 class Game
   attr_reader :current_player
-  attr_accessor :gameboard
+  attr_accessor :gameboard, :player1, :player2
 
   def initialize
     @gameboard = Board.new
     @gameboard.starting_board
-    @player1 = AIPlayer.new(:black)
+    @player1 = HumanPlayer.new(:black)
     @player2 = AIPlayer.new(:white)
     @current_player = @player1
   end
 
   def run
-    until @gameboard.game_over?(@current_player.color)
+    loop do
       puts
       @gameboard.display
       move = @current_player.get_move(@gameboard)
@@ -146,6 +143,7 @@ class Game
         move = @current_player.get_move(@gameboard)
       end
       play_turn(move)
+      break if @gameboard.game_over?(@current_player.color)
       @current_player = (@current_player == @player1) ? @player2 : @player1
     end
 
@@ -202,5 +200,5 @@ class AIPlayer < Player
   end
 end
 
-x = Game.new
-x.run
+#x = Game.new
+#x.run
