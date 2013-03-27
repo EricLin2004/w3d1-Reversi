@@ -40,7 +40,7 @@ class Board
   def pieces_to_flip(move, player_color)
     surrounding_spaces = [-1,0,1].product([-1,0,1]) - [[0, 0]]
     pieces_to_flip = []
-
+    #REV this method can be refactored into multiple methods
     surrounding_spaces.each do |vec|
       #debugger if move == [7,3]
       y = vec[0] + move[0]

@@ -17,8 +17,8 @@ describe Board do
       board.pos[3][3] = :black
       board.valid_move?(occupied_move, :black).should be_false
     end
-
-    it "the move flips an opponent's piece" do
+    #REV should this be doesn't flip?
+    it "the move flips an opponent's piece" do 
       board.pos[2][3] = :white
       board.pos[1][3] = :black
       board.pos[2][1] = :black
@@ -42,7 +42,8 @@ describe Board do
       board.pos[4][4] = :white
     end
 
-    describe "flipping pieces" do
+    # REV not sure why this flipping pieces is neccessary
+    describe "flipping pieces" do 
 
       it 'flips pieces vertically' do
         board.pos[2][3] = :black
@@ -91,7 +92,7 @@ describe Board do
 
       board.game_over?(:white).should be_true
     end
-
+    # REV returns false if moves avalible?
   end
 
   describe '#count_pieces' do
